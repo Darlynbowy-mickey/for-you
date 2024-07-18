@@ -1,0 +1,58 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 24px;
+}
+.dancing-script-displayname {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 40px;
+}
+
+.card-background {
+  background-color: #fbfbff;
+}
+.BdayImage {
+  height: 100px;
+  width: 100px;
+}
+.birthday-h {
+  height: 430px;
+  width: 500px;
+}
+.hvr-pulse {
+  display: flex !important;
+}
+.p-2 {
+  padding: 0.5rem !important;
+}
+.flex-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.flex-item:hover .icon-overlay {
+  bottom: 0;
+  filter: brightness(50%);
+}
+
+.icon-overlay {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem;
+  transition: bottom 0.3s ease;
+}
