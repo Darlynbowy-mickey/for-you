@@ -10,6 +10,7 @@ import { forYouState } from "../../../models/stateItems";
 import { Icon, Modal } from "@fluentui/react";
 import "hover.css/css/hover.css";
 import toast, { Toaster } from "react-hot-toast";
+import ClockItRecords from "./ClockItRecords";
 
 const settings = {
   dots: true,
@@ -25,8 +26,11 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
     this.state = {
       birthdays: [],
       holidays: [],
+      clockItItems: false,
       isOpen: false,
       clockIt: [],
+      selectedEmployees: [],
+      selectedDay: "",
     };
   }
   openModal = (): void => {
@@ -37,6 +41,17 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
   closeModal = (): void => {
     this.setState({ isOpen: false });
   };
+  openClockitRecords = (day: string, employees: ISchedule[]) => {
+    this.setState({
+      clockItItems: true,
+      selectedDay: day,
+      selectedEmployees: employees,
+    });
+  };
+  closeClockitRecords = (): void => {
+    this.setState({ clockItItems: false });
+  };
+
   triggerFlow = async (name: string, email: string): Promise<void> => {
     // const userId =
     //   this.props.context.pageContext.legacyPageContext.userId.toString();
@@ -209,25 +224,24 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
         <p className="font-bold text-4xl m-6 ml-[260px]">For You </p>
 
         <div className="flex flex-row gap-7 mx-auto">
-          <div className="rounded-lg shadow-md  h-[447px] w-[439px] ">
-            <div className=" flex flex-row m-6">
+          <div className="rounded-3xl shadow-md h-[447px] w-[439px]">
+            <div className="flex flex-row m-6">
               {dayMonth.length > 0 ? (
                 <Slider {...settings} className="react-slider">
                   {dayMonth.map((item) => {
-                    <div className="birthday-h flex justify-center items-center">
+                    return (
                       <div
-                        className="container rounded-3xl shadow-md p-4 relative h-[446px] w-[490px] bg-white"
-                        key={item.Email}>
+                        className=" flex justify-center items-center p-4 relative h-[380px] w-[490px] bg-white"
+                        key={item.ID}>
                         {isOpen && (
                           <Modal isOpen={isOpen} onDismiss={this.closeModal}>
                             <Toaster />
-
                             <div
                               className="flex flex-col h-full w-full p-4 bg-gray-100 rounded-lg"
                               style={{ width: "600px", height: "600px" }}>
                               <textarea
                                 id="birthday-wish"
-                                className="border border-gray-300  rounded-lg p-2 mb-4 h-48 r focus:outline-none"
+                                className="border border-gray-300 rounded-lg p-2 mb-4 h-48 focus:outline-none"
                                 placeholder="Enter text here..."
                               />
                               <div className="flex items-center justify-end mb-4">
@@ -240,7 +254,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                                 </button>
                                 <button
                                   className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg ml-2"
-                                  onClick={() => this.closeModal()}>
+                                  onClick={this.closeModal}>
                                   Cancel
                                 </button>
                               </div>
@@ -252,35 +266,32 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                           <img
                             src={require("../assets/Frame.svg")}
                             alt="no image found"
-                            className=" main-container absolute inset-0 h-[28rem] w-[490px] object-cover rounded-[2.5rem] p-4"
+                            className="main-container absolute inset-0 h-[380px] w-[400px] object-cover rounded-[2.5rem] p-4"
                           />
                         </div>
 
                         <div className="flex flex-col items-center justify-center absolute inset-0 z-10">
                           <div className="flex flex-col items-center justify-center bg-transparent">
-                            <p className="roboto-bold mb-3">Happy Birthday</p>
+                            <p className="italiana-regular mb-3">
+                              Happy Birthday
+                            </p>
                             <img
                               id="profile"
                               src={require("../assets/Caleb.jpg")}
                               alt="User"
                               className="rounded-full BdayImage mb-2"
                             />
-
                             <p className="dancing-script-displayname mb-2 transform -rotate-6">
-                              {" "}
                               {item.Title}
                             </p>
                             <button className="UserRoleBtn inria-sans-bold rounded-full bg-gradient-to-br from-blue-500 to-green-500 text-white py-2 px-4">
                               {item.Role}
                             </button>
-
                             <div
                               className="flex flex-row items-center"
-                              style={{
-                                position: "relative",
-                              }}>
+                              style={{ position: "relative" }}>
                               <button
-                                // onClick={this.openModal}
+                                onClick={this.openModal}
                                 title="Birthday Wish..."
                                 className="rounded-lg cursor-pointer bg-gradient-to-br from-blue-500 to-green-500 py-2 px-4 mt-3"
                                 style={{ height: "35px" }}>
@@ -294,25 +305,23 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                           </div>
                         </div>
                       </div>
-                    </div>;
+                    );
                   })}
                 </Slider>
               ) : (
-                <div>
-                  <div className="flex   h-[447px] w-[439px] justify-center items-center text-center rounded-md shadow-sm">
-                    <img
-                      src={require("../assets/nobday.jpg")}
-                      title="no birthday today"
-                      className="absolute w-[386px] h-[380px]"
-                    />
-                    <p className="relative ">No Birthdays Today</p>
-                  </div>
+                <div className="flex h-[447px] w-[439px] justify-center items-center text-center rounded-md shadow-sm">
+                  <img
+                    src={require("../assets/nobday.jpg")}
+                    title="no birthday today"
+                    className="absolute w-[386px] h-[380px]"
+                  />
+                  <p className="relative">No Birthdays Today</p>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="h-[447px] w-[345px] bg-white rounded-lg shadow-md p-3">
+          <div className="h-[447px] w-[345px] bg-white rounded-3xl shadow-md p-3">
             <p className="font-semibold text-2xl">Company Apps</p>
             {collectionData ? (
               <div className="grid grid-cols-2 place-items-stretch gap-[0.15rem] p-[0.25rem]">
@@ -348,7 +357,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
             )}
           </div>
 
-          <div className="flex flex-col h-[447px] w-[439px] rounded-lg shadow-md p-2">
+          <div className="flex flex-col h-[447px] w-[439px] rounded-3xl shadow-md p-2">
             <div className="flex bg-gray-200 h-[81px] items-center text-2xl font-bold mb-3 mt-5 pl-5 rounded-t-[20px] text-left">
               {" "}
               Employee Updates
@@ -361,7 +370,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                 <Icon iconName="ChevronDown" className="cursor-pointer" />
               </div>
             </div>
-            <div className="flex flex-col divide-y divide-gray-300 overflow-y-auto cal-scroll">
+            <div className="flex flex-col divide-y divide-gray-300 overflow-y-auto cal-scroll pt-2 ">
               {daysOfWeek.map((day) => (
                 <div key={day} className="flex flex-col p-5">
                   {groupedItems[day].length > 0 ? (
@@ -386,8 +395,8 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                                   { bg: "bg-pink-100", text: "text-pink-500" },
                                   { bg: "bg-blue-100", text: "text-blue-500" },
                                   {
-                                    bg: "bg-yellow-100",
-                                    text: "text-yellow-500",
+                                    bg: "bg-customPeach",
+                                    text: "text-customDeepPeach",
                                   },
                                 ];
                                 const color = colors[index];
@@ -417,8 +426,11 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                       </div>{" "}
                       <Icon
                         iconName="ChevronRight"
-                        className="pt-2 cursor-pointer
+                        className="pt-2 cursor-pointer font-bold text-xl
                 "
+                        onClick={() =>
+                          this.openClockitRecords(day, groupedItems[day])
+                        }
                       />
                     </div>
                   ) : (
@@ -481,6 +493,12 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
             </div> */}
           </div>
         </div>
+        <ClockItRecords
+          clockItItems={this.state.clockItItems}
+          onDismiss={this.closeClockitRecords}
+          selectedDay={this.state.selectedDay}
+          selectedEmployees={this.state.selectedEmployees}
+        />
       </div>
     );
   }

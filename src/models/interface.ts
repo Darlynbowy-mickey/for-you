@@ -35,6 +35,6 @@ export interface AppIcon {
 export interface ISchedule {
   ID: string;
   Title: string;
-  "Entry Time": string;
+  EntryTime: string;
   Date: string;
 }
