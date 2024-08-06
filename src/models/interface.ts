@@ -32,3 +32,9 @@ export interface AppIcon {
   Link: string;
   Icon: string;
 }
+export interface ISchedule {
+  ID: string;
+  Title: string;
+  "Entry Time": string;
+  Date: string;
+}

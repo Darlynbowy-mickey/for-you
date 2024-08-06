@@ -3,4 +3,6 @@
   "port": 4321,
   "https": true,
   "initialPage": "https://{tenantDomain}/_layouts/workbench.aspx"
+  
+
 }
