@@ -33,7 +33,7 @@ const ClockItRecords = ({
               return (
                 <div
                   key={item.ID}
-                  className="flex flex-row justify-between p-5">
+                  className="flex flex-row justify-between p-[1.25rem]">
                   <div className="flex flex-row gap-4">
                     <div className="relative flex items-center justify-center">
                       <div className="h-8 w-8 bg-pink-100 rounded-full flex items-center justify-center">
