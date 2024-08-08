@@ -8,4 +8,5 @@ export interface forYouState {
   selectedDay: string;
   selectedEmployees: ISchedule[];
   clockIt: any[];
+  hideItem: boolean;
 }

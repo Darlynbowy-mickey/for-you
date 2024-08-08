@@ -17,7 +17,7 @@ const ClockItRecords = ({
 }: Props) => {
   return (
     <Modal isOpen={clockItItems} onDismiss={onDismiss}>
-      <div className="p-5 h-[600px] w-[700px] rounded-md">
+      <div className="p-[1.25rem] h-[600px] w-[700px] rounded-md">
         <div className="flex flex-row justify-between mb-4">
           <h2 className="font-bold text-lg">{selectedDay}</h2>
           <Icon
@@ -27,7 +27,7 @@ const ClockItRecords = ({
           />
         </div>
         {selectedEmployees.length > 0 ? (
-          <div className="divide-y divide-gray-300">
+          <div className="divide-y divide-gray-300 overflow-y-auto cal-scroll">
             {selectedEmployees.map((item) => {
               const initial = item.Title.charAt(0);
               return (
@@ -37,10 +37,10 @@ const ClockItRecords = ({
                   <div className="flex flex-row gap-4">
                     <div className="relative flex items-center justify-center">
                       <div className="h-8 w-8 bg-pink-100 rounded-full flex items-center justify-center">
-                        <p className="text-pink-500">{initial}</p>
+                        <p className="text-pink-500 font-bold">{initial}</p>
                       </div>
                     </div>
-                    <div className="flex flex-col pl-10">
+                    <div className="flex flex-col ">
                       <p className="font-bold text-base">{item.Title}</p>
                     </div>
                   </div>

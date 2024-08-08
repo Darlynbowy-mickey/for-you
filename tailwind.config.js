@@ -5,7 +5,11 @@ module.exports = {
     extend: {
       colors:{
         customPeach: '#FCD9C2',
-        customDeepPeach: '#FF9149'
+        customDeepPeach: '#FF9149',
+        customLB: "#E5F3FC"
+        ,
+        customL : "#47CCDF"
+
       }
     },
   },

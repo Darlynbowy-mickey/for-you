@@ -11,6 +11,7 @@ import { Icon, Modal } from "@fluentui/react";
 import "hover.css/css/hover.css";
 import toast, { Toaster } from "react-hot-toast";
 import ClockItRecords from "./ClockItRecords";
+import "@fontsource/dancing-script"; // Defaults to weight 400
 
 const settings = {
   dots: true,
@@ -31,6 +32,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
       clockIt: [],
       selectedEmployees: [],
       selectedDay: "",
+      hideItem: false,
     };
   }
   openModal = (): void => {
@@ -50,6 +52,12 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
   };
   closeClockitRecords = (): void => {
     this.setState({ clockItItems: false });
+  };
+  showClockIt = (): void => {
+    this.setState({ hideItem: true });
+  };
+  hideClockIt = (): void => {
+    this.setState({ hideItem: false });
   };
 
   triggerFlow = async (name: string, email: string): Promise<void> => {
@@ -187,7 +195,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
   };
   public render(): React.ReactElement<IForYouProps> {
     //Birthday
-    const { isOpen } = this.state;
+    const { isOpen, hideItem } = this.state;
     const currentDate = new Date();
     const currentYear = new Date().getFullYear();
     const dayMonth = this.state.birthdays.filter((item: BirthdayClass) => {
@@ -231,14 +239,12 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                   {dayMonth.map((item) => {
                     return (
                       <div
-                        className=" flex justify-center items-center p-4 relative h-[380px] w-[490px] bg-white"
+                        className=" flex justify-center items-center p-4 relative h-[400px] w-[490px] bg-white"
                         key={item.ID}>
                         {isOpen && (
                           <Modal isOpen={isOpen} onDismiss={this.closeModal}>
                             <Toaster />
-                            <div
-                              className="flex flex-col h-full w-full p-4 bg-gray-100 rounded-lg"
-                              style={{ width: "600px", height: "600px" }}>
+                            <div className="flex flex-col h-full w-full p-4 bg-gray-100 rounded-lg">
                               <textarea
                                 id="birthday-wish"
                                 className="border border-gray-300 rounded-lg p-2 mb-4 h-48 focus:outline-none"
@@ -246,7 +252,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                               />
                               <div className="flex items-center justify-end mb-4">
                                 <button
-                                  className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-2"
+                                  className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-2 "
                                   onClick={() =>
                                     this.triggerFlow(item.Title, item.Email)
                                   }>
@@ -266,7 +272,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                           <img
                             src={require("../assets/Frame.svg")}
                             alt="no image found"
-                            className="main-container absolute inset-0 h-[380px] w-[400px] object-cover rounded-[2.5rem] p-4"
+                            className="main-container absolute inset-0 h-[400px] w-[400px] object-cover rounded-[2.5rem] p-4"
                           />
                         </div>
 
@@ -281,7 +287,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                               alt="User"
                               className="rounded-full BdayImage mb-2"
                             />
-                            <p className="dancing-script-displayname mb-2 transform -rotate-6">
+                            <p className="dancing-script mb-2 transform font-medium text-[40px] -rotate-[5deg]">
                               {item.Title}
                             </p>
                             <button className="UserRoleBtn inria-sans-bold rounded-full bg-gradient-to-br from-blue-500 to-green-500 text-white py-2 px-4">
@@ -292,8 +298,8 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                               style={{ position: "relative" }}>
                               <button
                                 onClick={this.openModal}
-                                title="Birthday Wish..."
-                                className="rounded-lg cursor-pointer bg-gradient-to-br from-blue-500 to-green-500 py-2 px-4 mt-3"
+                                title="Send a wish..."
+                                className="rounded-lg cursor-pointer bg-gradient-to-br from-blue-500 to-green-500 py-2 px-4 mt-3 hvr-bounce-in"
                                 style={{ height: "35px" }}>
                                 <img
                                   src={require("../assets/send.svg")}
@@ -343,7 +349,11 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                         className="text-5xl text-white cursor-pointer"
                         onClick={() => openInNewTab(item.Link)}
                       />
-                      <span className="icon-overlay">{item.Name}</span>
+                      <span
+                        className="icon-overlay cursor-pointer"
+                        onClick={() => openInNewTab(item.Link)}>
+                        {item.Name}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -363,134 +373,99 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
               Employee Updates
             </div>
             <div className="flex flex-row justify-between">
-              <div className="border border-gray-200 rounded border-solid ml-2 px-4 py-2 w-[346px]">
+              <div className="border border-gray-200 rounded border-solid ml-2 px-4 py-2 w-[334px]">
                 ClockIn
               </div>
-              <div className="border border-gray-300 px-4 py-2 rounded">
-                <Icon iconName="ChevronDown" className="cursor-pointer" />
+              <div className="border border-gray-300 px-4 py-2 rounded  hvr-bounce-in">
+                {hideItem ? (
+                  <Icon
+                    iconName="ChevronRight"
+                    className="cursor-pointer font-bold text-xl"
+                    onClick={this.hideClockIt}
+                  />
+                ) : (
+                  <Icon
+                    iconName="ChevronDown"
+                    className="cursor-pointer font-bold text-xl"
+                    onClick={this.showClockIt}
+                  />
+                )}
               </div>
             </div>
-            <div className="flex flex-col divide-y divide-gray-300 overflow-y-auto cal-scroll pt-2 ">
-              {daysOfWeek.map((day) => (
-                <div key={day} className="flex flex-col p-5">
-                  {groupedItems[day].length > 0 ? (
-                    <div className="flex flex-row justify-between py-2">
-                      <div className="flex flex-row gap-4">
-                        <div className="relative flex items-center justify-center">
-                          <div className="relative mb-[35px]">
-                            {/* <div className="h-8 w-8 bg-pink-100 rounded-full flex items-center justify-center">
-                              <p className="text-pink-500">P</p>
+            {hideItem ? (
+              ""
+            ) : (
+              <div className="flex flex-col divide-y divide-gray-300 overflow-y-auto cal-scroll pt-2 ">
+                {daysOfWeek.map((day) => (
+                  <div key={day} className="flex flex-col p-[1.25rem]">
+                    {groupedItems[day].length > 0 ? (
+                      <div className="flex flex-row justify-between py-2">
+                        <div className="flex flex-row gap-4">
+                          <div className="relative flex items-center justify-center">
+                            <div className="relative mb-[35px]">
+                              {groupedItems[day]
+                                .slice(0, 3)
+                                .map((item, index) => {
+                                  const initial = item.Title.charAt(0);
+                                  const colors = [
+                                    {
+                                      bg: "bg-pink-100",
+                                      text: "text-pink-500",
+                                    },
+                                    {
+                                      bg: "bg-customLB",
+                                      text: "text-customL",
+                                    },
+                                    {
+                                      bg: "bg-customPeach",
+                                      text: "text-customDeepPeach",
+                                    },
+                                  ];
+                                  const color = colors[index];
+                                  const positions = [
+                                    { top: "top-0", left: "left-0" },
+                                    { top: "top-0", left: "left-8" },
+                                    { top: "top-4", left: "left-4" },
+                                  ];
+                                  const position = positions[index];
+                                  return (
+                                    <div
+                                      key={item.ID}
+                                      className={`h-8 w-8 ${color.bg} rounded-full flex items-center justify-center absolute ${position.top} ${position.left}`}>
+                                      <p className={`${color.text} font-bold`}>
+                                        {initial}
+                                      </p>
+                                    </div>
+                                  );
+                                })}
                             </div>
-                            <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center absolute top-0 left-8">
-                              <p className="text-blue-500">M</p>
-                            </div>
-                            <div className="h-8 w-8 bg-yellow-100 rounded-full flex items-center justify-center absolute top-4 left-4">
-                              <p className="text-yellow-500">L</p>
-                            </div> */}
-                            {groupedItems[day]
-                              .slice(0, 3)
-                              .map((item, index) => {
-                                const initial = item.Title.charAt(0);
-                                const colors = [
-                                  { bg: "bg-pink-100", text: "text-pink-500" },
-                                  { bg: "bg-blue-100", text: "text-blue-500" },
-                                  {
-                                    bg: "bg-customPeach",
-                                    text: "text-customDeepPeach",
-                                  },
-                                ];
-                                const color = colors[index];
-                                const positions = [
-                                  { top: "top-0", left: "left-0" },
-                                  { top: "top-0", left: "left-8" },
-                                  { top: "top-4", left: "left-4" },
-                                ];
-                                const position = positions[index];
-                                return (
-                                  <div
-                                    key={item.ID}
-                                    className={`h-8 w-8 ${color.bg} rounded-full flex items-center justify-center absolute ${position.top} ${position.left}`}>
-                                    <p className={color.text}>{initial}</p>
-                                  </div>
-                                );
-                              })}
                           </div>
-                        </div>
-                        <div className="flex flex-col pl-16">
-                          <p className="font-bold text-base">
-                            {groupedItems[day][0].Title}
-                            {` & ${groupedItems[day].length - 1} more`}
-                          </p>
-                          <p className="text-sm font-normal">{day}</p>
-                        </div>
-                      </div>{" "}
-                      <Icon
-                        iconName="ChevronRight"
-                        className="pt-2 cursor-pointer font-bold text-xl
+                          <div className="flex flex-col pl-16">
+                            <p className="font-bold text-base mulish">
+                              {groupedItems[day][0].Title}
+                              {` & ${groupedItems[day].length - 1} more`}
+                            </p>
+                            <p className="text-sm font-normal mulish">{day}</p>
+                          </div>
+                        </div>{" "}
+                        <Icon
+                          iconName="ChevronRight"
+                          className="pt-2 cursor-pointer font-bold text-xl
                 "
-                        onClick={() =>
-                          this.openClockitRecords(day, groupedItems[day])
-                        }
-                      />
-                    </div>
-                  ) : (
-                    <div className="text-sm font-normal text-gray-500">
-                      No records for {day}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            {/* <div className="flex flex-col divide-y divide-gray-300">
-              <div className="flex flex-row justify-between p-5">
-                <div className="flex flex-row gap-4">
-                  <div className="relative flex items-center justify-center">
-                    <div className="relative">
-                      <div className="h-8 w-8 bg-pink-100 rounded-full flex items-center justify-center">
-                        <p className="text-pink-500">P</p>
+                          onClick={() =>
+                            this.openClockitRecords(day, groupedItems[day])
+                          }
+                        />
                       </div>
-                      <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center absolute top-0 left-8">
-                        <p className="text-blue-500">M</p>
+                    ) : (
+                      <div className="text-sm font-normal text-gray-500">
+                        No records for {day}
                       </div>
-                      <div className="h-8 w-8 bg-yellow-100 rounded-full flex items-center justify-center absolute top-4 left-4">
-                        <p className="text-yellow-500">L</p>
-                      </div>
-                    </div>
+                    )}
                   </div>
-                  <div className="flex flex-col pl-10">
-                    <p className="font-bold text-base">Michael Nyantakyi</p>
-                    <p className="text-sm font-normal"></p>
-                  </div>
-                </div>
-                <Icon
-                  iconName="ChevronRight"
-                  className="pt-2 cursor-pointer
-                "
-                />
+                ))}
               </div>
-              {/* <div className="flex flex-row divide-y-reverse justify-between p-5">
-                <div className="flex flex-row gap-4">
-                  <div className="relative flex items-center justify-center">
-                    <div className="relative">
-                      <div className="h-8 w-8 bg-pink-100 rounded-full flex items-center justify-center">
-                        <p className="text-pink-500">P</p>
-                      </div>
-                      <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center absolute top-0 left-8">
-                        <p className="text-blue-500">M</p>
-                      </div>
-                      <div className="h-8 w-8 bg-yellow-100 rounded-full flex items-center justify-center absolute top-4 left-4">
-                        <p className="text-yellow-500">L</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col pl-10">
-                    <p className="font-bold text-base">Michael Nyantakyi</p>
-                    <p className="text-sm font-normal">Monday</p>
-                  </div>
-                </div>
-                <Icon iconName="ChevronRight" className="pt-2 cursor-pointer" />
-              </div> 
-            </div> */}
+            )}
           </div>
         </div>
         <ClockItRecords
