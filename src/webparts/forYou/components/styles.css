@@ -67,7 +67,9 @@
   height: 447px;
   width: 450px;
 }
-
+.main-281 {
+  border-radius: 30px;
+}
 .flex-item {
   position: relative;
   overflow: hidden;

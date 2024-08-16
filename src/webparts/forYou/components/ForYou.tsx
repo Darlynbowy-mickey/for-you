@@ -144,7 +144,6 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
         this.setState({
           birthdays: _birthdays,
         });
-        console.log("Birthdays: ", response.value);
       })
       .catch((error) => {
         console.log(error);
@@ -173,7 +172,6 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
         return response.json();
       })
       .then((response: { value: any[] }) => {
-        console.log("Fetched data:", response.value);
         let _items: any[] = [];
         _items = _items.concat(response.value);
         this.setState({
@@ -315,13 +313,13 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                   })}
                 </Slider>
               ) : (
-                <div className="flex h-[447px] w-[439px] justify-center items-center text-center rounded-md shadow-sm">
+                <div className="flex justify-center items-center text-center ">
                   <img
                     src={require("../assets/nobday.jpg")}
                     title="no birthday today"
-                    className="absolute w-[386px] h-[380px]"
+                    className="relative w-[386px] h-[380px]"
                   />
-                  <p className="relative">No Birthdays Today</p>
+                  <p className="absolute">No Birthdays Today</p>
                 </div>
               )}
             </div>
@@ -330,7 +328,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
           <div className="h-[447px] w-[345px] bg-white rounded-3xl shadow-md p-3">
             <p className="font-semibold text-2xl">Company Apps</p>
             {collectionData ? (
-              <div className="grid grid-cols-2 place-items-stretch gap-[0.15rem] p-[0.25rem]">
+              <div className="grid grid-cols-2 place-items-stretch gap-[0.15rem] p-[0.25rem] pt-2">
                 {collectionData.map((item, index) => (
                   <div
                     key={index}
@@ -373,7 +371,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
               Employee Updates
             </div>
             <div className="flex flex-row justify-between">
-              <div className="border border-gray-200 rounded border-solid ml-2 px-4 py-2 w-[334px]">
+              <div className="border border-gray-200 rounded border-solid ml-2 px-4 py-2 w-[350px]">
                 ClockIn
               </div>
               <div className="border border-gray-300 px-4 py-2 rounded  hvr-bounce-in">
@@ -397,9 +395,9 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
             ) : (
               <div className="flex flex-col divide-y divide-gray-300 overflow-y-auto cal-scroll pt-2 ">
                 {daysOfWeek.map((day) => (
-                  <div key={day} className="flex flex-col p-[1.25rem]">
+                  <div key={day} className="flex flex-col p-[0.8rem]">
                     {groupedItems[day].length > 0 ? (
-                      <div className="flex flex-row justify-between py-2">
+                      <div className="flex flex-row justify-between">
                         <div className="flex flex-row gap-4">
                           <div className="relative flex items-center justify-center">
                             <div className="relative mb-[35px]">
