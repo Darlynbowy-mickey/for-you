@@ -23,7 +23,7 @@ export interface IForYouWebPartProps {
     Name: string;
     Link: string;
     Icon: string;
-    colorIcon: string;
+    iconColor: string;
     cardColor: string;
   }[];
 }
@@ -164,18 +164,14 @@ export default class ForYouWebPart extends BaseClientSideWebPart<IForYouWebPartP
                       required: true,
                     },
                     {
-                      id: "colorIcon",
+                      id: "iconColor",
                       title: "Color",
                       type: CustomCollectionFieldType.color,
-
-                      required: true,
                     },
                     {
                       id: "cardColor",
                       title: "Card Color",
                       type: CustomCollectionFieldType.color,
-
-                      required: true,
                     },
                   ],
 

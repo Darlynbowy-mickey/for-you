@@ -12,7 +12,7 @@ export interface IForYouProps {
     Name: string;
     Link: string;
     Icon: string;
-    colorIcon: string;
+    iconColor: string;
     cardColor: string;
   }[];
 }

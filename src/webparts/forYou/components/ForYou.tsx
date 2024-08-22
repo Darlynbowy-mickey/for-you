@@ -227,11 +227,16 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
     });
     return (
       <div className="flex flex-col p-5 justify-center ">
-        <p className="font-bold text-4xl m-6 ml-[260px]">For You </p>
-
+        <p className="text-center m-6 text-5xl font-semibold font-sans">
+          For You
+        </p>
+        <p className="font-sans text-center">
+          Stay updated with the latest employee news, celebrate birthdays, and
+          access essential company apps all in one place.
+        </p>
         <div className="flex flex-row gap-7 mx-auto">
           <div className="rounded-3xl shadow-md h-[447px] w-[439px]">
-            <div className="flex flex-row m-6">
+            <div className="flex flex-row ml-[10px] mt-[5px]">
               {dayMonth.length > 0 ? (
                 <Slider {...settings} className="react-slider">
                   {dayMonth.map((item) => {
@@ -313,60 +318,23 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                   })}
                 </Slider>
               ) : (
-                <div className="flex justify-center items-center text-center ">
-                  <img
+                <div className="flex justify-center text-center ">
+                  {/* <img
                     src={require("../assets/nobday.jpg")}
                     title="no birthday today"
                     className="relative w-[386px] h-[380px]"
-                  />
-                  <p className="absolute">No Birthdays Today</p>
+                  /> */}
+                  <div className="flex  bg-gradient-to-br from-green-500 to-blue-500 h-[81px] items-center text-2xl font-bold mb-3 pl-5 rounded-t-[20px] w-[420px] text-left text-white">
+                    {" "}
+                    Birthday corner
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="h-[447px] w-[345px] bg-white rounded-3xl shadow-md p-3">
-            <p className="font-semibold text-2xl">Company Apps</p>
-            {collectionData ? (
-              <div className="grid grid-cols-2 place-items-stretch gap-[0.15rem] p-[0.25rem] pt-2">
-                {collectionData.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex-item icon-container hvr-bounce-in rounded-md hover:z-10">
-                    <div
-                      className={`flex h-28 ${
-                        item.cardColor ? item.cardColor : "bg-sky-600"
-                      }  justify-center items-center relative group `}
-                      style={{
-                        backgroundColor: `${
-                          item.cardColor ? item.cardColor : "rgb(2 132 199)"
-                        }`,
-                      }}>
-                      <Icon
-                        iconName={item.Icon}
-                        className="text-5xl text-white cursor-pointer"
-                        onClick={() => openInNewTab(item.Link)}
-                      />
-                      <span
-                        className="icon-overlay cursor-pointer"
-                        onClick={() => openInNewTab(item.Link)}>
-                        {item.Name}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex items-center justify-center">
-                <p className=" flex text-center justify-center items-center text-white text-4xl">
-                  No app is found, add an app from the configuration.
-                </p>
-              </div>
-            )}
-          </div>
-
           <div className="flex flex-col h-[447px] w-[439px] rounded-3xl shadow-md p-2">
-            <div className="flex bg-gray-200 h-[81px] items-center text-2xl font-bold mb-3 mt-5 pl-5 rounded-t-[20px] text-left">
+            <div className="flex  bg-gradient-to-br from-green-500 to-blue-500 h-[81px] items-center text-2xl font-bold mb-3 pl-5 rounded-t-[20px] text-left text-white">
               {" "}
               Employee Updates
             </div>
@@ -462,6 +430,49 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
                     )}
                   </div>
                 ))}
+              </div>
+            )}
+          </div>
+          <div className="h-[447px] w-[345px] bg-white rounded-3xl shadow-md p-3">
+            <div className="flex  bg-gradient-to-br from-green-500 to-blue-500 h-[81px] items-center text-2xl font-bold mb-3 pl-5 rounded-t-[20px] text-left text-white">
+              Company Apps
+            </div>
+            {collectionData ? (
+              <div className="grid grid-cols-2 place-items-stretch gap-[0.15rem] p-[0.25rem] pt-2">
+                {collectionData.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex-item icon-container hvr-bounce-in rounded-md hover:z-10">
+                    <div
+                      className={`flex h-28 ${
+                        item.cardColor ? item.cardColor : "bg-sky-600"
+                      }  justify-center items-center relative group `}
+                      style={{
+                        backgroundColor: `${
+                          item.cardColor ? item.cardColor : "rgb(2 132 199)"
+                        }`,
+                      }}>
+                      <Icon
+                        iconName={item.Icon}
+                        className={`text-5xl ${
+                          item.iconColor ? item.iconColor : " text-white"
+                        } cursor-pointer`}
+                        onClick={() => openInNewTab(item.Link)}
+                      />
+                      <span
+                        className="icon-overlay cursor-pointer"
+                        onClick={() => openInNewTab(item.Link)}>
+                        {item.Name}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center">
+                <p className=" flex text-center justify-center items-center text-white text-4xl">
+                  No app is found, add an app from the configuration.
+                </p>
               </div>
             )}
           </div>
