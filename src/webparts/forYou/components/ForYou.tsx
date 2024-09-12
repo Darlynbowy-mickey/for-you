@@ -13,6 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import ClockItRecords from "./ClockItRecords";
 import "@fontsource/dancing-script"; // Defaults to weight 400
 
+// react slick slider settings
 const settings = {
   dots: true,
   infinite: true,
@@ -24,6 +25,7 @@ const settings = {
 export default class ForYou extends React.Component<IForYouProps, forYouState> {
   constructor(props: IForYouProps, state: forYouState) {
     super(props);
+    // state items
     this.state = {
       birthdays: [],
       holidays: [],
@@ -35,6 +37,8 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
       hideItem: false,
     };
   }
+
+  // modal control for birthday
   openModal = (): void => {
     this.setState({
       isOpen: true,
@@ -43,6 +47,8 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
   closeModal = (): void => {
     this.setState({ isOpen: false });
   };
+
+  // modal control for clockit records
   openClockitRecords = (day: string, employees: ISchedule[]) => {
     this.setState({
       clockItItems: true,
@@ -53,6 +59,8 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
   closeClockitRecords = (): void => {
     this.setState({ clockItItems: false });
   };
+
+  //clockit record dropdown control
   showClockIt = (): void => {
     this.setState({ hideItem: true });
   };
@@ -60,6 +68,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
     this.setState({ hideItem: false });
   };
 
+  // birthday wish flow trigger function
   triggerFlow = async (name: string, email: string): Promise<void> => {
     // const userId =
     //   this.props.context.pageContext.legacyPageContext.userId.toString();
@@ -108,7 +117,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
       toast.error("An error occurred");
     }
   };
-
+  // function to fetch from the holiday list
   public getHolidays = async (): Promise<void> => {
     this.props.context.spHttpClient
       .get(
@@ -129,6 +138,8 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
         console.log(error);
       });
   };
+
+  // function to fetch from the birthday list
   private fetchBirthdays = async (): Promise<void> => {
     await this.props.context.spHttpClient
       .get(
@@ -149,6 +160,8 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
         console.log(error);
       });
   };
+
+  // function to fetch from the clockit record list
   public getWorkSchedule() {
     const currentDate = new Date();
     const weekStart = new Date(currentDate.toISOString());
@@ -182,18 +195,22 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
         console.log(error);
       });
   }
+
   componentDidMount = async (): Promise<void> => {
     await this.getHolidays();
     await this.fetchBirthdays();
     await this.getWorkSchedule();
   };
+  // function to check if there's a new app added by an admin
   componentDidUpdate = async (preProps: IForYouProps) => {
     if (preProps.collectionData !== this.props.collectionData) {
     }
   };
   public render(): React.ReactElement<IForYouProps> {
-    //Birthday
+    //fetch state items
     const { isOpen, hideItem } = this.state;
+
+    //get birthday(s) that are happening today
     const currentDate = new Date();
     const currentYear = new Date().getFullYear();
     const dayMonth = this.state.birthdays.filter((item: BirthdayClass) => {
@@ -213,7 +230,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
       window.open(url, "_blank");
     };
     // Clockit
-    // const { clockIt } = this.state;
+    //grouping of items based on the current week, fetched from the clockit record list
     const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
     const weekdays = daysOfWeek.slice(0, 5);
     const groupedItems: { [key: string]: ISchedule[] } = {};
@@ -227,6 +244,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
     });
     return (
       <div className="flex flex-col p-5 justify-center ">
+        {/* section header */}
         <p className="text-center m-6 text-5xl font-semibold font-sans">
           For You
         </p>
@@ -235,6 +253,7 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
           access essential company apps all in one place.
         </p>
         <div className="flex flex-row gap-7 mx-auto">
+          {/* Birthday card Start */}
           <div className="rounded-3xl shadow-md h-[447px] w-[439px]">
             <div className="flex flex-row ml-[10px] mt-[5px]">
               {dayMonth.length > 0 ? (
@@ -332,6 +351,9 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
               )}
             </div>
           </div>
+          {/* Birthday card End */}
+
+          {/* Clockit records card Start */}
 
           <div className="flex flex-col h-[447px] w-[439px] rounded-3xl shadow-md p-2">
             <div className="flex  bg-gradient-to-br from-green-500 to-blue-500 h-[81px] items-center text-2xl font-bold mb-3 pl-5 rounded-t-[20px] text-left text-white">
@@ -433,6 +455,10 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
               </div>
             )}
           </div>
+          {/* Clockit records card end */}
+
+          {/* Company Apps card Start */}
+
           <div className="h-[447px] w-[345px] bg-white rounded-3xl shadow-md p-3">
             <div className="flex  bg-gradient-to-br from-green-500 to-blue-500 h-[81px] items-center text-2xl font-bold mb-3 pl-5 rounded-t-[20px] text-left text-white">
               Company Apps
@@ -476,13 +502,17 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
               </div>
             )}
           </div>
+          {/* Company apps card End */}
         </div>
+
+        {/* Clockit record modal Start */}
         <ClockItRecords
           clockItItems={this.state.clockItItems}
           onDismiss={this.closeClockitRecords}
           selectedDay={this.state.selectedDay}
           selectedEmployees={this.state.selectedEmployees}
         />
+        {/* Clockit record modal End */}
       </div>
     );
   }
