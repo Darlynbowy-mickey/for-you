@@ -255,102 +255,117 @@ export default class ForYou extends React.Component<IForYouProps, forYouState> {
         <div className="flex flex-row gap-7 mx-auto">
           {/* Birthday card Start */}
           <div className="rounded-3xl shadow-md h-[447px] w-[439px]">
-            <div className="flex flex-row ml-[10px] mt-[5px]">
-              {dayMonth.length > 0 ? (
-                <Slider {...settings} className="react-slider">
-                  {dayMonth.map((item) => {
-                    return (
-                      <div
-                        className=" flex justify-center items-center p-4 relative h-[400px] w-[490px] bg-white"
-                        key={item.ID}>
-                        {isOpen && (
-                          <Modal isOpen={isOpen} onDismiss={this.closeModal}>
-                            <Toaster />
-                            <div className="flex flex-col h-full w-full p-4 bg-gray-100 rounded-lg">
-                              <textarea
-                                id="birthday-wish"
-                                className="border border-gray-300 rounded-lg p-2 mb-4 h-48 focus:outline-none"
-                                placeholder="Enter text here..."
+                <div className="flex flex-row justify-center items-center mt-[5px]">
+                  {dayMonth.length > 0 ? (
+                    <Slider {...settings} className="react-slider">
+                      {dayMonth.map((item) => {
+                        // Parse the EmpImg JSON string into an object
+                        let EmpImg;
+                        try {
+                          EmpImg = JSON.parse(item.EmpImg);
+                          console.log(EmpImg);
+                        } catch (e) {
+                          console.error("Error parsing EmpImg:", e);
+                          EmpImg = null;
+                        }
+                        return (
+                          <div
+                            className="flex justify-center items-center p-4 relative h-[400px] w-[490px] bg-white"
+                            key={item.ID}
+                          >
+                            {isOpen && (
+                              <Modal isOpen={isOpen} onDismiss={this.closeModal}>
+                                <Toaster />
+                                <div className="flex flex-col h-full w-full p-4 bg-gray-100 rounded-lg">
+                                  <textarea
+                                    id="birthday-wish"
+                                    className="border border-gray-300 rounded-lg p-2 mb-4 h-48 focus:outline-none"
+                                    placeholder="Enter text here..."
+                                  />
+                                  <div className="flex items-center justify-end mb-4">
+                                    <button
+                                      className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-2"
+                                      onClick={() =>
+                                        this.triggerFlow(item.Title, item.Email)
+                                      }
+                                    >
+                                      Wish
+                                    </button>
+                                    <button
+                                      className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg ml-2"
+                                      onClick={this.closeModal}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              </Modal>
+                            )}
+
+                            <div>
+                              <img
+                                src={require("../assets/Frame.svg")}
+                                alt="no image found"
+                                className="main-container absolute inset-0 h-[400px] w-[400px] object-cover rounded-[2.5rem] p-4"
                               />
-                              <div className="flex items-center justify-end mb-4">
-                                <button
-                                  className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-2 "
-                                  onClick={() =>
-                                    this.triggerFlow(item.Title, item.Email)
-                                  }>
-                                  Wish
+                            </div>
+
+                            <div className="flex flex-col items-center justify-center absolute inset-0 z-10">
+                              <div className="flex flex-col items-center justify-center bg-transparent">
+                                <p className="italiana-regular mb-3">Happy Birthday</p>
+                                
+                                {/* check if EmpImg is valid and combine both severUrl and relativeUrl to get full image URL */}
+                                {EmpImg && EmpImg.serverUrl && EmpImg.serverRelativeUrl ? (
+                                  <img
+                                    id="profile"
+                                    src={`${EmpImg.serverUrl}${EmpImg.serverRelativeUrl}`}
+                                    alt="User"
+                                    className="rounded-full BdayImage mb-2 h-[200px] w-[200px]"
+                                  />
+                                ) : (
+                                  <p className="text-red-500">Image not available</p>
+                                )}
+
+                                <p className="dancing-script mb-2 transform font-medium text-[40px] -rotate-[5deg]">
+                                  {item.Title}
+                                </p>
+                                <button className="UserRoleBtn inria-sans-bold rounded-full bg-gradient-to-br from-blue-500 to-green-500 text-white py-2 px-4">
+                                  {item.Role}
                                 </button>
-                                <button
-                                  className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg ml-2"
-                                  onClick={this.closeModal}>
-                                  Cancel
-                                </button>
+                                <div
+                                  className="flex flex-row items-center"
+                                  style={{ position: "relative" }}
+                                >
+                                  <button
+                                    onClick={this.openModal}
+                                    title="Send a wish..."
+                                    className="rounded-lg cursor-pointer bg-gradient-to-br from-blue-500 to-green-500 py-2 px-4 mt-3 hvr-bounce-in"
+                                    style={{ height: "35px" }}
+                                  >
+                                    <img
+                                      src={require("../assets/send.svg")}
+                                      alt="send icon"
+                                      className="h-6 w-6"
+                                    />
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </Modal>
-                        )}
-
-                        <div>
-                          <img
-                            src={require("../assets/Frame.svg")}
-                            alt="no image found"
-                            className="main-container absolute inset-0 h-[400px] w-[400px] object-cover rounded-[2.5rem] p-4"
-                          />
-                        </div>
-
-                        <div className="flex flex-col items-center justify-center absolute inset-0 z-10">
-                          <div className="flex flex-col items-center justify-center bg-transparent">
-                            <p className="italiana-regular mb-3">
-                              Happy Birthday
-                            </p>
-                            <img
-                              id="profile"
-                              src={require("../assets/Caleb.jpg")}
-                              alt="User"
-                              className="rounded-full BdayImage mb-2"
-                            />
-                            <p className="dancing-script mb-2 transform font-medium text-[40px] -rotate-[5deg]">
-                              {item.Title}
-                            </p>
-                            <button className="UserRoleBtn inria-sans-bold rounded-full bg-gradient-to-br from-blue-500 to-green-500 text-white py-2 px-4">
-                              {item.Role}
-                            </button>
-                            <div
-                              className="flex flex-row items-center"
-                              style={{ position: "relative" }}>
-                              <button
-                                onClick={this.openModal}
-                                title="Send a wish..."
-                                className="rounded-lg cursor-pointer bg-gradient-to-br from-blue-500 to-green-500 py-2 px-4 mt-3 hvr-bounce-in"
-                                style={{ height: "35px" }}>
-                                <img
-                                  src={require("../assets/send.svg")}
-                                  alt="send icon"
-                                  className="h-6 w-6"
-                                />
-                              </button>
-                            </div>
                           </div>
-                        </div>
+                        );
+                      })}
+                    </Slider>
+                  ) : (
+                    <div className="flex justify-center text-center">
+                      <div className="flex bg-gradient-to-br from-green-500 to-blue-500 h-[81px] items-center text-2xl font-bold mb-3 pl-5 rounded-t-[20px] w-[420px] text-left text-white">
+                        Birthday corner
                       </div>
-                    );
-                  })}
-                </Slider>
-              ) : (
-                <div className="flex justify-center text-center ">
-                  {/* <img
-                    src={require("../assets/nobday.jpg")}
-                    title="no birthday today"
-                    className="relative w-[386px] h-[380px]"
-                  /> */}
-                  <div className="flex  bg-gradient-to-br from-green-500 to-blue-500 h-[81px] items-center text-2xl font-bold mb-3 pl-5 rounded-t-[20px] w-[420px] text-left text-white">
-                    {" "}
-                    Birthday corner
-                  </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+
+
           {/* Birthday card End */}
 
           {/* Clockit records card Start */}
